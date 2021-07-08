@@ -4,10 +4,11 @@ import FWCore.ParameterSet.Config as cms
 # M. Bluj, NCBJ Warsaw
 # based on work of J. Steggemann, CERN
 # Created: 9 Nov. 2017
-#With additional implementation for Muon/ELectron Cleaning From Jets
+#With additional implementation for Muon/Electron Cleaning from Jets
+# Redwan Md Habibullah 8 July 2021
 ######
 
-#65;6003;1c#####
+######
 
 import PhysicsTools.PatAlgos.tools.helpers as configtools
 from PhysicsTools.PatAlgos.tools.helpers import cloneProcessingSnippet

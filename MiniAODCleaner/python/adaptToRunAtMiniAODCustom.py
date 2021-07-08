@@ -6,7 +6,7 @@ from PhysicsTools.PatAlgos.tools.helpers import cloneProcessingSnippet
 from PhysicsTools.PatAlgos.tools.helpers import massSearchReplaceAnyInputTag
 from PhysicsTools.PatAlgos.tools.helpers import removeIfInSequence
 
-#65;6003;1c#############
+##############
 #Tools to adapt Tau sequences to run tau ReReco+PAT at MiniAOD samples
 #With cleaned PackedPFCandidate Collection
 ##############
@@ -582,15 +582,15 @@ def addFurtherSkimming(process):
                                                              '/pt()<0.25'),
                                         )
     process.analysisMuonsNoIsoCount = cms.EDFilter("PATCandViewCountFilter",
-         minNumber = cms.uint32(2),
-         maxNumber = cms.uint32(999),
-         src = cms.InputTag('analysisMuonsNoIso'),
+        minNumber = cms.uint32(1),
+        maxNumber = cms.uint32(999),
+        src = cms.InputTag('analysisMuonsNoIso'),
     )
     
     process.analysisMuonsIsoCount = cms.EDFilter("PATCandViewCountFilter",
-         minNumber = cms.uint32(2),
-         maxNumber = cms.uint32(999),
-         src = cms.InputTag('analysisMuonsIso'),
+        minNumber = cms.uint32(1),
+        maxNumber = cms.uint32(999),
+        src = cms.InputTag('analysisMuonsIso'),
     )
         
     process.main_path *= process.analysisMuonsNoIso
@@ -620,23 +620,23 @@ def addFurtherSkimming(process):
     process.main_path_mt *= process.triggerMuonCount
     
     ############################
-    ### Require two OS muons ###
+    ### Require two OS muons ### -> Dropped as we don't want to separate out skims
     ############################
-    process.mumu = cms.EDProducer("CandViewShallowCloneCombiner",
-                                  decay = cms.string("{0}@+ {0}@-".format('slimmedMuons')),
-                                  cut   = cms.string("1<mass<65"),
-                              )
-    process.mumuCount = cms.EDFilter("PATCandViewCountFilter",
-                                     minNumber = cms.uint32(1),
-                                     maxNumber = cms.uint32(999),
-                                     src = cms.InputTag('mumu'),
-                                )
-    process.main_path *= process.mumu
-    process.main_path *= process.mumuCount
-    process.main_path_et *= process.mumu
-    process.main_path_et *= process.mumuCount
-    process.main_path_mt *= process.mumu
-    process.main_path_mt *= process.mumuCount
+    # process.mumu = cms.EDProducer("CandViewShallowCloneCombiner",
+    #                               decay = cms.string("{0}@+ {0}@-".format('slimmedMuons')),
+    #                               cut   = cms.string("1<mass<65"),
+    #                           )
+    # process.mumuCount = cms.EDFilter("PATCandViewCountFilter",
+    #                                  minNumber = cms.uint32(1),
+    #                                  maxNumber = cms.uint32(999),
+    #                                  src = cms.InputTag('mumu'),
+    #                             )
+    # process.main_path *= process.mumu
+    # process.main_path *= process.mumuCount
+    # process.main_path_et *= process.mumu
+    # process.main_path_et *= process.mumuCount
+    # process.main_path_mt *= process.mumu
+    # process.main_path_mt *= process.mumuCount
     
     process.mumuZ = cms.EDProducer("CandViewShallowCloneCombiner",
                                    decay = cms.string("{0}@+ {0}@-".format('slimmedMuons')),
