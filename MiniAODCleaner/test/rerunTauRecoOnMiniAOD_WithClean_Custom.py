@@ -82,7 +82,7 @@ else:
 
 #####
 #import RecoTauTag.Configuration.tools.adaptToRunAtMiniAOD as tauAtMiniTools
-import MiniAODCleanerTest.MiniAODCleaner.adaptToRunAtMiniAODCustom as tauAtMiniToolsCustom
+import MiniAODSkimmer.MiniAODCleaner.adaptToRunAtMiniAODCustom as tauAtMiniToolsCustom
 
 #####
 print "Step : 1 - Added Paths for RecoCleaned "
