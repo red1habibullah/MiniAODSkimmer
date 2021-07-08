@@ -7,7 +7,7 @@ import FWCore.ParameterSet.Config as cms
 #With additional implementation for Muon/ELectron Cleaning From Jets
 ######
 
-######
+#65;6003;1c#####
 
 import PhysicsTools.PatAlgos.tools.helpers as configtools
 from PhysicsTools.PatAlgos.tools.helpers import cloneProcessingSnippet
@@ -17,10 +17,10 @@ from FWCore.ParameterSet.MassReplace import massSearchReplaceParam
 
 #runSignal = True
 runSignal=False
-maxEvents = 100
+maxEvents = 1000
 # maxEvents=-1
 appendOutput = True
-
+isMC = True
 # If 'reclusterJets' set true a new collection of uncorrected ak4PFJets is
 # built to seed taus (as at RECO), otherwise standard slimmedJets are used
 reclusterJets = True
@@ -43,9 +43,9 @@ print('\t Output mode:', outMode)
 
 #####
 from Configuration.Eras.Era_Run2_2018_cff import Run2_2018
-
+#from Configuration.Eras.Era_Run2_2017_cff import Run2_2017
 era = Run2_2018
-
+#era = Run2_2017
 if phase2:
     from Configuration.Eras.Era_Phase2_timing_cff import Phase2_timing
     era = Phase2_timing
@@ -82,7 +82,7 @@ else:
 
 #####
 #import RecoTauTag.Configuration.tools.adaptToRunAtMiniAOD as tauAtMiniTools
-import MiniAODSkimmer.MiniAODCleaner.adaptToRunAtMiniAODCustom as tauAtMiniToolsCustom
+import MiniAODCleanerTest.MiniAODCleaner.adaptToRunAtMiniAODCustom as tauAtMiniToolsCustom
 
 #####
 print "Step : 1 - Added Paths for RecoCleaned "
@@ -117,11 +117,12 @@ else:
 ##### Modify ouput by Hand#####
 
 if appendOutput:
-    #process.output.outputCommands.append('keep *_PackedCandsElectronCleaned_*_*')
+    process.output.outputCommands.append('keep *_selectedPatTaus_*_*')
     process.output.outputCommands.append('keep *_selectedPatTausElectronCleaned_*_*')
     process.output.outputCommands.append('keep *_selectedPatTausMuonCleaned_*_*')
-    #process.output.outputCommands.append('keep *_slimmedTausElectronCleaned_*_*')
-    #process.output.outputCommands.append('keep *_slimmedTausMuonCleaned_*_*')
+    process.output.outputCommands.append('keep *_slimmedTausUnCleaned_*_*')
+    process.output.outputCommands.append('keep *_slimmedTausElectronCleaned_*_*')
+    process.output.outputCommands.append('keep *_slimmedTausMuonCleaned_*_*')
     
 
 #####
@@ -130,8 +131,8 @@ tauAtMiniToolsCustom.addTauReRecoCustom(process)
 
 
 
-process.out = cms.EndPath(process.output)
-
+#process.out = cms.EndPath(process.output)
+#process.schedule.append(process.out)
 #####
 print "Step : 3 - Adapt Tau Reco to MiniAOD inputs"
 
@@ -172,8 +173,10 @@ process.recoTauAK4Jets08RegionPATMuonCleaned.minJetPt = jetPt
 process.ak4PFJetsRecoTauChargedHadronsMuonCleaned.minJetPt = jetPt
 
 
-#tauAtMiniToolsCustom.addFurtherSkimming(process)
+tauAtMiniToolsCustom.addFurtherSkimming(process)
 
+process.out = cms.EndPath(process.output)
+process.schedule.append(process.out)
 
 ###########################################
 process.load('FWCore.MessageService.MessageLogger_cfi')
@@ -185,8 +188,8 @@ if process.maxEvents.input.value() > 10000 or process.maxEvents.input.value() < 
 #####
 process.options = cms.untracked.PSet(
 )
-process.options.numberOfThreads = cms.untracked.uint32(4)
-# process.options.numberOfThreads=cms.untracked.uint32(1)
+#process.options.numberOfThreads = cms.untracked.uint32(4)
+process.options.numberOfThreads=cms.untracked.uint32(1)
 process.options.numberOfStreams = cms.untracked.uint32(0)
 print('\t No. of threads:', process.options.numberOfThreads.value(), ', no. of streams:', process.options.numberOfStreams.value())
 
