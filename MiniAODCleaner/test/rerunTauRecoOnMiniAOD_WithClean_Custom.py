@@ -124,8 +124,9 @@ if appendOutput:
     process.output.outputCommands.append('keep *_slimmedTausUnCleaned_*_*')
     process.output.outputCommands.append('keep *_slimmedTausElectronCleaned_*_*')
     process.output.outputCommands.append('keep *_slimmedTausMuonCleaned_*_*')
+    process.output.outputCommands.append('keep *_lumiSummary_*_*')
     
-
+ 
 #####
 
 tauAtMiniToolsCustom.addTauReRecoCustom(process)
