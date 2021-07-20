@@ -86,7 +86,7 @@ else:
 import MiniAODSkimmer.MiniAODCleaner.adaptToRunAtMiniAODCustom as tauAtMiniToolsCustom
 
 #####
-print "Step : 1 - Added Paths for RecoCleaned "
+print ('Step : 1 - Added Paths for RecoCleaned ')
 
 tauAtMiniToolsCustom.addTauReRecoCustom(process)
 
@@ -104,7 +104,7 @@ else:
 #####
 # mode = 0: store original MiniAOD and new selectedPatTaus
 # mode = 1: store original MiniAOD, new selectedPatTaus, and all PFtau products as in AOD (except of unsuported ones)
-print "Step : 2 - Declare Outputs"
+print ('Step : 2 - Declare Outputs')
 
 process.output = tauAtMiniToolsCustom.setOutputModule(mode=outMode)
 if runSignal:
@@ -136,10 +136,10 @@ tauAtMiniToolsCustom.addTauReRecoCustom(process)
 #process.out = cms.EndPath(process.output)
 #process.schedule.append(process.out)
 #####
-print "Step : 3 - Adapt Tau Reco to MiniAOD inputs"
+print ('Step : 3 - Adapt Tau Reco to MiniAOD inputs')
 
 tauAtMiniToolsCustom.adaptTauToMiniAODReReco(process, reclusterJets)
-print "Step : 4 - Lower Pt Standard Taus"
+print ('Step : 4 - Lower Pt Standard Taus')
 
 ###### lowering Pt of Standard Taus ######
 minJetPt = 5
@@ -152,7 +152,7 @@ process.selectedPatTaus.cut = cms.string('pt > 8.0 && abs(eta)<2.3 && tauID(\'de
 ##########################################
 #### Lower Tau Pt ElectronCleaned Taus###########
 
-print "Step : 5 - Lower Pt ElectronCleaned Taus"
+print ('Step : 5 - Lower Pt ElectronCleaned Taus')
 
 jetPt=5
 tauPt=8
@@ -166,7 +166,7 @@ process.ak4PFJetsRecoTauChargedHadronsElectronCleaned.minJetPt = jetPt
 ##########################################
 #### Lower Tau Pt MuonCleaned Taus###########
 
-print "Step : 6 - Lower Pt MuonCleaned Taus"
+print ('Step : 6 - Lower Pt MuonCleaned Taus')
 
 getattr(process,'selectedPatTausMuonCleaned').cut = cms.string("pt > {} && abs(eta) < 2.3 && tauID(\'decayModeFinding\')> 0.5".format(tauPt))
 process.ak4PFJetsLegacyHPSPiZerosMuonCleaned.minJetPt = jetPt

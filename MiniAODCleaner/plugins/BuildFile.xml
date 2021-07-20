@@ -3,6 +3,7 @@
 <use name="FWCore/ParameterSet"/>
 <use name="DataFormats/MuonReco"/>
 <use name="DataFormats/EgammaCandidates"/>
+<use name="SimDataFormats/GeneratorProducts"/>
 <use name="RecoEgamma/EgammaTools" />
 <use name="RecoEgamma/ElectronIdentification" />
 <use name="RecoEgamma/EgammaElectronAlgos"/>
