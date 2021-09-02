@@ -26,7 +26,7 @@ runType = 'signal'
 maxEvents=-1
 appendOutput = True
 #isMC = True
-year='2018'
+year='2017'
 ########
 
 
@@ -52,10 +52,8 @@ print('\t Use Phase2 settings:', phase2)
 print('\t Output mode:', outMode)
 
 #####
-from Configuration.Eras.Era_Run2_2018_cff import Run2_2018
-#from Configuration.Eras.Era_Run2_2017_cff import Run2_2017
-era = Run2_2018
-#era = Run2_2017
+from Configuration.Eras.Era_Run2_2017_cff import Run2_2017
+era = Run2_2017
 if phase2:
     from Configuration.Eras.Era_Phase2_timing_cff import Phase2_timing
     era = Phase2_timing
@@ -93,7 +91,7 @@ print('\t Max events:', process.maxEvents.input.value())
 if runType == 'signal':
     readFiles.extend([
         #'file:patMiniAOD_standard.root'
-        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/7D5A88D0-2822-7749-B83B-382307587942.root'
+        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/4B62060B-AC2A-694A-8E56-B484FD41BCB2.root'
         #'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'#
     ])
 elif runType == 'background':
