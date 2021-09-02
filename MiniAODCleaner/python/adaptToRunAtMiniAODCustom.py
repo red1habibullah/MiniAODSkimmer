@@ -684,7 +684,8 @@ def addFurtherSkimming(process):
     ###############
     process.HLT =cms.EDFilter("HLTHighLevel",
                               TriggerResultsTag = cms.InputTag("TriggerResults","","HLT"),
-                              HLTPaths = cms.vstring("HLT_IsoMu24_v*", "HLT_IsoTkMu24_v*", "HLT_IsoMu27_v*", "HLT_IsoTkMu27_v*"), #2017
+                              HLTPaths = cms.vstring("HLT_IsoMu24_v*","HLT_IsoTkMu24_v*"), #2016 
+                              #HLTPaths = cms.vstring("HLT_IsoMu24_v*", "HLT_IsoTkMu24_v*", "HLT_IsoMu27_v*", "HLT_IsoTkMu27_v*"), #2017
                               #HLTPaths = cms.vstring("HLT_IsoMu24_v*"), #2018  
                               eventSetupPathsKey = cms.string(''),
                               andOr = cms.bool(True), #----- True = OR, False = AND between the HLTPaths

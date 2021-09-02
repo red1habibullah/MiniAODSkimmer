@@ -26,7 +26,7 @@ runType = 'signal'
 maxEvents=-1
 appendOutput = True
 #isMC = True
-year='2017'
+year='2016'
 ########
 
 
@@ -52,8 +52,8 @@ print('\t Use Phase2 settings:', phase2)
 print('\t Output mode:', outMode)
 
 #####
-from Configuration.Eras.Era_Run2_2017_cff import Run2_2017
-era = Run2_2017
+from Configuration.Eras.Era_Run2_2016_cff import Run2_2016
+era = Run2_2016
 if phase2:
     from Configuration.Eras.Era_Phase2_timing_cff import Phase2_timing
     era = Phase2_timing
@@ -76,22 +76,12 @@ process.maxEvents = cms.untracked.PSet(
 )
 print('\t Max events:', process.maxEvents.input.value())
 
-# if runSignal:
-#     readFiles.extend([
-#         #'file:patMiniAOD_standard.root'
-#         '/store/relval/CMSSW_10_5_0_pre1/RelValZTT_13/MINIAODSIM/PU25ns_103X_upgrade2018_realistic_v8-v1/20000/EA29017F-9967-3F41-BB8A-22C44A454235.root'
-#     ])
-# else:
-#     readFiles.extend([
-#         #'file:patMiniAOD_standard.root'
-#         'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'
-#         #'/store/relval/CMSSW_10_5_0_pre1/RelValQCD_FlatPt_15_3000HS_13/MINIAODSIM/PU25ns_103X_mcRun2_asymptotic_v3-v1/20000/A5CBC261-E3AB-C842-896F-E6AFB38DD22F.root'
-#     ])
+
 
 if runType == 'signal':
     readFiles.extend([
         #'file:patMiniAOD_standard.root'
-        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/4B62060B-AC2A-694A-8E56-B484FD41BCB2.root'
+        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/026562E3-1664-D84E-B828-39A53558A75D.root'
         #'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'#
     ])
 elif runType == 'background':
