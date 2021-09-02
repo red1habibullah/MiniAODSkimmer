@@ -148,7 +148,9 @@ def convertModuleToMiniAODInput(process, name):
     if hasattr(module, 'qualityCuts') and hasattr(module.qualityCuts, 'primaryVertexSrc'):
         module.qualityCuts.primaryVertexSrc = cms.InputTag('offlineSlimmedPrimaryVertices')
     
-def adaptTauToMiniAODReReco(process, reclusterJets=True):
+def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
+    #runType=kwargs.pop('runType')
+    
     jetCollection = 'slimmedJets'
     # Add new jet collections if reclustering is demanded
     if reclusterJets:
@@ -280,13 +282,12 @@ def adaptTauToMiniAODReReco(process, reclusterJets=True):
     process.miniAODTausTaskMuonCleaned.add(process.recoTauAK4Jets08RegionPATMuonCleaned)
     process.miniAODTausTaskMuonCleaned.add(process.recoTauPileUpVerticesMuonCleaned)
     
-
     for moduleName in process.TauReco.moduleNames(): 
         convertModuleToMiniAODInput(process, moduleName)
-    
+        
     for moduleName in process.TauRecoElectronCleaned.moduleNames(): 
         convertModuleToMiniAODInput(process, moduleName)
-
+        
     for moduleName in process.TauRecoMuonCleaned.moduleNames(): 
         convertModuleToMiniAODInput(process, moduleName)
     
@@ -467,68 +468,191 @@ def adaptTauToMiniAODReReco(process, reclusterJets=True):
     
     
     # Instead add against-mu discriminants which are MiniAOD compatible
-    from RecoTauTag.RecoTau.hpsPFTauDiscriminationByAMuonRejectionSimple_cff import hpsPFTauDiscriminationByLooseMuonRejectionSimple, hpsPFTauDiscriminationByTightMuonRejectionSimple
+    #from RecoTauTag.RecoTau.hpsPFTauDiscriminationByAMuonRejectionSimple_cff import hpsPFTauDiscriminationByLooseMuonRejectionSimple, hpsPFTauDiscriminationByTightMuonRejectionSimple
+    from RecoTauTag.RecoTau.hpsPFTauDiscriminationByMuonRejectionSimple_cff import hpsPFTauDiscriminationByMuonRejectionSimple
     
-    process.hpsPFTauDiscriminationByLooseMuonRejectionSimple = hpsPFTauDiscriminationByLooseMuonRejectionSimple
-    process.hpsPFTauDiscriminationByTightMuonRejectionSimple = hpsPFTauDiscriminationByTightMuonRejectionSimple
-    process.miniAODTausTask.add(process.hpsPFTauDiscriminationByLooseMuonRejectionSimple)
-    process.miniAODTausTask.add(process.hpsPFTauDiscriminationByTightMuonRejectionSimple)
+    process.hpsPFTauDiscriminationByMuonRejectionSimple = hpsPFTauDiscriminationByMuonRejectionSimple
+    #process.hpsPFTauDiscriminationByTightMuonRejectionSimple = hpsPFTauDiscriminationByTightMuonRejectionSimple
+    process.miniAODTausTask.add(process.hpsPFTauDiscriminationByMuonRejectionSimple)
+    #process.miniAODTausTask.add(process.hpsPFTauDiscriminationByTightMuonRejectionSimple)
 
-    process.hpsPFTauDiscriminationByLooseMuonRejectionSimpleElectronCleaned = process.hpsPFTauDiscriminationByLooseMuonRejectionSimple.clone(PFTauProducer = cms.InputTag("hpsPFTauProducerElectronCleaned"))
-    process.hpsPFTauDiscriminationByTightMuonRejectionSimpleElectronCleaned = hpsPFTauDiscriminationByTightMuonRejectionSimple.clone(PFTauProducer = cms.InputTag("hpsPFTauProducerElectronCleaned"))
-    process.miniAODTausTaskElectronCleaned.add(process.hpsPFTauDiscriminationByLooseMuonRejectionSimpleElectronCleaned)
-    process.miniAODTausTaskElectronCleaned.add(process.hpsPFTauDiscriminationByTightMuonRejectionSimpleElectronCleaned)
+    process.hpsPFTauDiscriminationByMuonRejectionSimpleElectronCleaned = process.hpsPFTauDiscriminationByMuonRejectionSimple.clone(PFTauProducer = cms.InputTag("hpsPFTauProducerElectronCleaned"))
+    #process.hpsPFTauDiscriminationByTightMuonRejectionSimpleElectronCleaned = hpsPFTauDiscriminationByTightMuonRejectionSimple.clone(PFTauProducer = cms.InputTag("hpsPFTauProducerElectronCleaned"))
+    process.miniAODTausTaskElectronCleaned.add(process.hpsPFTauDiscriminationByMuonRejectionSimpleElectronCleaned)
+    #process.miniAODTausTaskElectronCleaned.add(process.hpsPFTauDiscriminationByTightMuonRejectionSimpleElectronCleaned)
     
-    process.hpsPFTauDiscriminationByLooseMuonRejectionSimpleMuonCleaned = process.hpsPFTauDiscriminationByLooseMuonRejectionSimple.clone(PFTauProducer = cms.InputTag("hpsPFTauProducerMuonCleaned"))
-    process.hpsPFTauDiscriminationByTightMuonRejectionSimpleMuonCleaned = hpsPFTauDiscriminationByTightMuonRejectionSimple.clone(PFTauProducer = cms.InputTag("hpsPFTauProducerMuonCleaned"))
-    process.miniAODTausTaskMuonCleaned.add(process.hpsPFTauDiscriminationByLooseMuonRejectionSimpleMuonCleaned)
-    process.miniAODTausTaskMuonCleaned.add(process.hpsPFTauDiscriminationByTightMuonRejectionSimpleMuonCleaned)
+    process.hpsPFTauDiscriminationByMuonRejectionSimpleMuonCleaned = process.hpsPFTauDiscriminationByMuonRejectionSimple.clone(PFTauProducer = cms.InputTag("hpsPFTauProducerMuonCleaned"))
+    #process.hpsPFTauDiscriminationByTightMuonRejectionSimpleMuonCleaned = hpsPFTauDiscriminationByTightMuonRejectionSimple.clone(PFTauProducer = cms.InputTag("hpsPFTauProducerMuonCleaned"))
+    process.miniAODTausTaskMuonCleaned.add(process.hpsPFTauDiscriminationByMuonRejectionSimpleMuonCleaned)
+    #process.miniAODTausTaskMuonCleaned.add(process.hpsPFTauDiscriminationByTightMuonRejectionSimpleMuonCleaned)
 
     #####
     # PAT part in the following
 
-    process.tauGenJets.GenParticles = cms.InputTag("prunedGenParticles")
-    process.tauMatch.matched = cms.InputTag("prunedGenParticles")
+    
+    if runType=='signal' or runType=='background':
+        print(runType,': Identified')
+    
+        process.tauGenJets.GenParticles = cms.InputTag("prunedGenParticles")
+        process.tauMatch.matched = cms.InputTag("prunedGenParticles")
 
-    process.tauGenJetsElectronCleaned.GenParticles = cms.InputTag("prunedGenParticles")
-    process.tauMatchElectronCleaned.matched = cms.InputTag("prunedGenParticles")
+        process.tauGenJetsElectronCleaned.GenParticles = cms.InputTag("prunedGenParticles")
+        process.tauMatchElectronCleaned.matched = cms.InputTag("prunedGenParticles")
    
-    process.tauGenJetsMuonCleaned.GenParticles = cms.InputTag("prunedGenParticles")
-    process.tauMatchMuonCleaned.matched = cms.InputTag("prunedGenParticles")
+        process.tauGenJetsMuonCleaned.GenParticles = cms.InputTag("prunedGenParticles")
+        process.tauMatchMuonCleaned.matched = cms.InputTag("prunedGenParticles")
     
-    
-    
-    
+    else:
+        print (runType, ': Identified, No MC Matching')
+        from PhysicsTools.PatAlgos.tools.coreTools import runOnData
+        runOnData(process, names = ['Taus'], outputModules = [])
+        runOnData(process, names = ['Taus'],outputModules = [],postfix='MuonCleaned')
+        runOnData(process, names = ['Taus'],outputModules = [],postfix='ElectronCleaned')
+        
     # Remove unsupported tauIDs
     for name, src in six.iteritems(process.patTaus.tauIDSources.parameters_()):
         if name.find('againstElectron') > -1 or name.find('againstMuon') > -1:
+            #if name.find('againstElectronDeadECAL') > -1: continue
             delattr(process.patTaus.tauIDSources,name)
     # Add MiniAOD specific ones
-    setattr(process.patTaus.tauIDSources,'againstMuonLooseSimple',cms.InputTag('hpsPFTauDiscriminationByLooseMuonRejectionSimple'))
-    setattr(process.patTaus.tauIDSources,'againstMuonTightSimple',cms.InputTag('hpsPFTauDiscriminationByTightMuonRejectionSimple'))
-
-
+        setattr(process.patTaus.tauIDSources,'againstMuonLooseSimple',
+            cms.PSet(inputTag = cms.InputTag('hpsPFTauDiscriminationByMuonRejectionSimple'),
+                     provenanceConfigLabel = cms.string('IDWPdefinitions'),
+                     idLabel = cms.string('ByLooseMuonRejectionSimple')
+                 ))
+    
+    setattr(process.patTaus.tauIDSources,'againstMuonTightSimple',
+            cms.PSet(inputTag = cms.InputTag('hpsPFTauDiscriminationByMuonRejectionSimple'),
+                     provenanceConfigLabel = cms.string('IDWPdefinitions'),
+                     idLabel = cms.string('ByTightMuonRejectionSimple')
+                 ))
+    
     for name, src in six.iteritems(process.patTausElectronCleaned.tauIDSources.parameters_()):
         if name.find('againstElectron') > -1 or name.find('againstMuon') > -1:
+            #if name.find('againstElectronDeadECAL') > -1 and name.find('ElectronCleaned') > -1: continue
             delattr(process.patTausElectronCleaned.tauIDSources,name)
     # Add MiniAOD specific ones
-    setattr(process.patTausElectronCleaned.tauIDSources,'againstMuonLooseSimple',cms.InputTag('hpsPFTauDiscriminationByLooseMuonRejectionSimpleElectronCleaned'))
-    setattr(process.patTausElectronCleaned.tauIDSources,'againstMuonTightSimple',cms.InputTag('hpsPFTauDiscriminationByTightMuonRejectionSimpleElectronCleaned'))
-
+    setattr(process.patTausElectronCleaned.tauIDSources,'againstMuonLooseSimple',
+            cms.PSet(inputTag = cms.InputTag('hpsPFTauDiscriminationByMuonRejectionSimpleElectronCleaned'),
+                     provenanceConfigLabel = cms.string('IDWPdefinitions'),
+                     idLabel = cms.string('ByLooseMuonRejectionSimple')
+                 ))
+    
+    setattr(process.patTausElectronCleaned.tauIDSources,'againstMuonTightSimple',
+            cms.PSet(inputTag = cms.InputTag('hpsPFTauDiscriminationByMuonRejectionSimpleElectronCleaned'),
+                     provenanceConfigLabel = cms.string('IDWPdefinitions'),
+                     idLabel = cms.string('ByTightMuonRejectionSimple')
+                 ))
+    
     
     for name, src in six.iteritems(process.patTausMuonCleaned.tauIDSources.parameters_()):
         if name.find('againstElectron') > -1 or name.find('againstMuon') > -1:
+            #if name.find('againstElectronDeadECAL') > -1 and name.find('MuonCleaned'): continue
             delattr(process.patTausMuonCleaned.tauIDSources,name)
-    # Add MiniAOD specific ones
-    setattr(process.patTausMuonCleaned.tauIDSources,'againstMuonLooseSimple',cms.InputTag('hpsPFTauDiscriminationByLooseMuonRejectionSimpleMuonCleaned'))
-    setattr(process.patTausMuonCleaned.tauIDSources,'againstMuonTightSimple',cms.InputTag('hpsPFTauDiscriminationByTightMuonRejectionSimpleMuonCleaned'))
+    setattr(process.patTausMuonCleaned.tauIDSources,'againstMuonLooseSimple',
+            cms.PSet(inputTag = cms.InputTag('hpsPFTauDiscriminationByMuonRejectionSimpleMuonCleaned'),
+                     provenanceConfigLabel = cms.string('IDWPdefinitions'),
+                     idLabel = cms.string('ByLooseMuonRejectionSimple')
+                 ))
+    
+    setattr(process.patTausMuonCleaned.tauIDSources,'againstMuonTightSimple',
+            cms.PSet(inputTag = cms.InputTag('hpsPFTauDiscriminationByMuonRejectionSimpleMuonCleaned'),
+                     provenanceConfigLabel = cms.string('IDWPdefinitions'),
+                     idLabel = cms.string('ByTightMuonRejectionSimple')
+                 ))
+    print('New ID')
+    # Run TauIDs (anti-e && deepTau) on top of selectedPatTaus
+    _updatedTauName = 'selectedPatTausNewIDs'
+    _noUpdatedTauName = 'selectedPatTausNoNewIDs'
+    import RecoTauTag.RecoTau.tools.runTauIdMVA as tauIdConfig
+    tauIdEmbedder = tauIdConfig.TauIDEmbedder(
+        process, debug = False,
+        updatedTauName = _updatedTauName,
+        toKeep = ['againstEle2018','deepTau2017v2p1']
+    )
+    tauIdEmbedder.runTauID()
+    setattr(process, _noUpdatedTauName, process.selectedPatTaus.clone())
+    process.miniAODTausTask.add(getattr(process,_noUpdatedTauName))
+    delattr(process, 'selectedPatTaus')
+    process.deepTau2017v2p1.taus = _noUpdatedTauName
+    process.patTauDiscriminationByElectronRejectionMVA62018Raw.PATTauProducer = _noUpdatedTauName
+    process.patTauDiscriminationByElectronRejectionMVA62018.PATTauProducer = _noUpdatedTauName
+    process.selectedPatTaus = getattr(process, _updatedTauName).clone(
+        src = _noUpdatedTauName
+    )
+    process.newTauIDsTask = cms.Task(
+        process.rerunMvaIsolationTask,
+        process.selectedPatTaus
+    )
+    process.miniAODTausTask.add(process.newTauIDsTask)
+    print('New ID Done')
+    print('New ID ElectronCleaned')
+    # Run TauIDs (anti-e && deepTau) on top of selectedPatTaus-ElectronCleaned
+    _updatedTauNameElectronCleaned = 'selectedPatTausNewIDsElectronCleaned'
+    _noUpdatedTauNameElectronCleaned = 'selectedPatTausNoNewIDsElectronCleaned'
+    
+    import MiniAODSkimmer.MiniAODCleaner.tools.runTauIdMVA_ElectronCleaned as tauIdConfigElectronCleaned
+    tauIdEmbedderElectronCleaned = tauIdConfigElectronCleaned.TauIDEmbedder(
+        process, debug = False,
+        updatedTauName = _updatedTauNameElectronCleaned,
+        postfix="ElectronCleaned",
+        toKeep = ['againstEle2018','deepTau2017v2p1']
+    )
+    tauIdEmbedderElectronCleaned.runTauID()
+    setattr(process, _noUpdatedTauNameElectronCleaned, process.selectedPatTausElectronCleaned.clone())
+    process.miniAODTausTaskElectronCleaned.add(getattr(process,_noUpdatedTauNameElectronCleaned))
+    delattr(process,'selectedPatTausElectronCleaned')
+    process.deepTau2017v2p1ElectronCleaned.taus = _noUpdatedTauNameElectronCleaned
+    process.patTauDiscriminationByElectronRejectionMVA62018RawElectronCleaned.PATTauProducer = _noUpdatedTauNameElectronCleaned
+    process.patTauDiscriminationByElectronRejectionMVA62018ElectronCleaned.PATTauProducer = _noUpdatedTauNameElectronCleaned
+    process.selectedPatTausElectronCleaned = getattr(process, _updatedTauNameElectronCleaned).clone(
+        src = _noUpdatedTauNameElectronCleaned
+    )
+    process.newTauIDsTaskElectronCleaned = cms.Task(
+        process.rerunMvaIsolationTaskElectronCleaned,
+        process.selectedPatTausElectronCleaned
+    )
+    process.miniAODTausTaskElectronCleaned.add(process.newTauIDsTaskElectronCleaned)
+    print('New ID ElectronCleaned - Done ')
+    print('New ID MuonCleaned')
+    # Run TauIDs (anti-e && deepTau) on top of selectedPatTaus-MuonCleaned
+    _updatedTauNameMuonCleaned = 'selectedPatTausNewIDsMuonCleaned'
+    _noUpdatedTauNameMuonCleaned = 'selectedPatTausNoNewIDsMuonCleaned'
+    
+    import MiniAODSkimmer.MiniAODCleaner.tools.runTauIdMVA_MuonCleaned as tauIdConfigMuonCleaned
+    tauIdEmbedderMuonCleaned = tauIdConfigMuonCleaned.TauIDEmbedder(
+        process, debug = False,
+        updatedTauName = _updatedTauNameMuonCleaned,
+        postfix="MuonCleaned",
+        toKeep = ['againstEle2018','deepTau2017v2p1']
+    )
+    tauIdEmbedderMuonCleaned.runTauID()
+    setattr(process, _noUpdatedTauNameMuonCleaned, process.selectedPatTausMuonCleaned.clone())
+    process.miniAODTausTaskMuonCleaned.add(getattr(process,_noUpdatedTauNameMuonCleaned))
+    delattr(process,'selectedPatTausMuonCleaned')
+    process.deepTau2017v2p1MuonCleaned.taus = _noUpdatedTauNameMuonCleaned
+    process.patTauDiscriminationByElectronRejectionMVA62018RawMuonCleaned.PATTauProducer = _noUpdatedTauNameMuonCleaned
+    process.patTauDiscriminationByElectronRejectionMVA62018MuonCleaned.PATTauProducer = _noUpdatedTauNameMuonCleaned
+    process.selectedPatTausMuonCleaned = getattr(process, _updatedTauNameMuonCleaned).clone(
+        src = _noUpdatedTauNameMuonCleaned
+    )
+    process.newTauIDsTaskMuonCleaned = cms.Task(
+        process.rerunMvaIsolationTaskMuonCleaned,
+        process.selectedPatTausMuonCleaned
+    )
+    process.miniAODTausTaskMuonCleaned.add(process.newTauIDsTaskMuonCleaned)
+    print('New ID MuonCleaned - Done ')
 
-    from PhysicsTools.PatAlgos.slimming.slimmedTaus_cfi import slimmedTaus
+    # print('Slimming the various Tau Collections')
+   
     
 def addFurtherSkimming(process):
     #doMM =kwargs.pop('doMM',False)
     #doMT = kwargs.pop('doMT',False)
     
+
+
+    print('Slimming the various Tau Collections')
     process.slimpath = cms.Path()
     from PhysicsTools.PatAlgos.slimming.slimmedTaus_cfi import slimmedTaus
     process.slimmedTausUnCleaned = slimmedTaus.clone(src = cms.InputTag('selectedPatTaus'))
@@ -538,6 +662,7 @@ def addFurtherSkimming(process):
     process.slimpath  *=process.slimmedTausElectronCleaned
     process.slimpath  *=process.slimmedTausMuonCleaned
     process.schedule.append(process.slimpath)
+    print('Slimming Done')
     #########################
     ### Skim Path MiniAOD ###
     #########################
@@ -622,21 +747,6 @@ def addFurtherSkimming(process):
     ############################
     ### Require two OS muons ### -> Dropped as we don't want to separate out skims
     ############################
-    # process.mumu = cms.EDProducer("CandViewShallowCloneCombiner",
-    #                               decay = cms.string("{0}@+ {0}@-".format('slimmedMuons')),
-    #                               cut   = cms.string("1<mass<65"),
-    #                           )
-    # process.mumuCount = cms.EDFilter("PATCandViewCountFilter",
-    #                                  minNumber = cms.uint32(1),
-    #                                  maxNumber = cms.uint32(999),
-    #                                  src = cms.InputTag('mumu'),
-    #                             )
-    # process.main_path *= process.mumu
-    # process.main_path *= process.mumuCount
-    # process.main_path_et *= process.mumu
-    # process.main_path_et *= process.mumuCount
-    # process.main_path_mt *= process.mumu
-    # process.main_path_mt *= process.mumuCount
     
     process.mumuZ = cms.EDProducer("CandViewShallowCloneCombiner",
                                    decay = cms.string("{0}@+ {0}@-".format('slimmedMuons')),
@@ -724,6 +834,8 @@ def addFurtherSkimming(process):
     ###################
     ### Lumi Summary ##
     ###################
+    # lumi summary
+    
     process.lumiSummary = cms.EDProducer("LumiSummaryProducer",
                                          genEventInfo = cms.InputTag("generator"),
                                          lheEventProduct = cms.InputTag("externalLHEProducer"),

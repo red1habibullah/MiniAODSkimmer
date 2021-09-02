@@ -17,11 +17,20 @@ from FWCore.ParameterSet.MassReplace import massSearchReplaceParam
 
 
 #runSignal = True
-runSignal=False
-maxEvents = 1000
-# maxEvents=-1
+#runSignal=False
+###########
+runType = 'signal'
+#runType = 'background'
+#runType = 'data'
+#maxEvents = 100
+maxEvents=-1
 appendOutput = True
-isMC = True
+#isMC = True
+year='2018'
+########
+
+
+
 # If 'reclusterJets' set true a new collection of uncorrected ak4PFJets is
 # built to seed taus (as at RECO), otherwise standard slimmedJets are used
 reclusterJets = True
@@ -37,7 +46,7 @@ outMode = 0  # store original MiniAOD and new selectedPatTaus
 
 
 print('Running Tau reco&id with MiniAOD inputs:')
-print('\t Run on signal:', runSignal)
+print('\t Run type:', runType)
 print('\t Recluster jets:', reclusterJets)
 print('\t Use Phase2 settings:', phase2)
 print('\t Output mode:', outMode)
@@ -69,20 +78,44 @@ process.maxEvents = cms.untracked.PSet(
 )
 print('\t Max events:', process.maxEvents.input.value())
 
-if runSignal:
+# if runSignal:
+#     readFiles.extend([
+#         #'file:patMiniAOD_standard.root'
+#         '/store/relval/CMSSW_10_5_0_pre1/RelValZTT_13/MINIAODSIM/PU25ns_103X_upgrade2018_realistic_v8-v1/20000/EA29017F-9967-3F41-BB8A-22C44A454235.root'
+#     ])
+# else:
+#     readFiles.extend([
+#         #'file:patMiniAOD_standard.root'
+#         'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'
+#         #'/store/relval/CMSSW_10_5_0_pre1/RelValQCD_FlatPt_15_3000HS_13/MINIAODSIM/PU25ns_103X_mcRun2_asymptotic_v3-v1/20000/A5CBC261-E3AB-C842-896F-E6AFB38DD22F.root'
+#     ])
+
+if runType == 'signal':
     readFiles.extend([
         #'file:patMiniAOD_standard.root'
-        '/store/relval/CMSSW_10_5_0_pre1/RelValZTT_13/MINIAODSIM/PU25ns_103X_upgrade2018_realistic_v8-v1/20000/EA29017F-9967-3F41-BB8A-22C44A454235.root'
+        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/7D5A88D0-2822-7749-B83B-382307587942.root'
+        #'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'#
+    ])
+elif runType == 'background':
+    readFiles.extend([
+        #'file:patMiniAOD_standard.root'
+        #'/store/relval/CMSSW_10_5_0_pre1/RelValQCD_FlatPt_15_3000HS_13/MINIAODSIM/PU25ns_103X_mcRun2_asymptotic_v3-v1/20000/A5CBC261-E3AB-C842-896F-E6AFB38DD22F.root'
+        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'
+    ])
+elif runType == 'data':
+    readFiles.extend([
+        #'/store/data/Run2018D/SingleMuon/MINIAOD/12Nov2019_UL2018-v4/710000/B7163712-7B03-D949-91C9-EB5DD2E1D4C3.root' # SingleMuon PD
+        '/store/data/Run2018D/Tau/MINIAOD/12Nov2019_UL2018-v1/00000/01415E2B-7CE5-B94C-93BD-0796FC40BD97.root' # Tau PD
     ])
 else:
-    readFiles.extend([
-        #'file:patMiniAOD_standard.root'
-        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'
-        #'/store/relval/CMSSW_10_5_0_pre1/RelValQCD_FlatPt_15_3000HS_13/MINIAODSIM/PU25ns_103X_mcRun2_asymptotic_v3-v1/20000/A5CBC261-E3AB-C842-896F-E6AFB38DD22F.root'
-    ])
+    print('Unknown runType =',runType,'; Use \"signal\" or \"background\" or \"data\"')
+    exit(1)
+
 
 #####
-#import RecoTauTag.Configuration.tools.adaptToRunAtMiniAOD as tauAtMiniTools
+
+
+
 import MiniAODSkimmer.MiniAODCleaner.adaptToRunAtMiniAODCustom as tauAtMiniToolsCustom
 
 #####
@@ -107,14 +140,27 @@ else:
 print ('Step : 2 - Declare Outputs')
 
 process.output = tauAtMiniToolsCustom.setOutputModule(mode=outMode)
-if runSignal:
-    process.output.fileName = 'miniAOD_TauReco_ggH.root'
+
+
+if runType == 'signal':
+    process.output.fileName = 'miniAOD_TauReco_ggH_'+year+'.root'
     if reclusterJets:
-        process.output.fileName = 'miniAOD_TauReco_ak4PFJets_ggH.root'
-else:
-    process.output.fileName = 'miniAOD_TauReco_DY.root'
+        process.output.fileName = 'miniAOD_TauReco_ak4PFJets_ggH_'+year+'.root'
+elif runType == 'background':
+    process.output.fileName = 'miniAOD_TauReco_QCD.root'
     if reclusterJets:
-        process.output.fileName = 'miniAOD_TauReco_ak4PFJets_DY.root'
+        process.output.fileName = 'miniAOD_TauReco_ak4PFJets_QCD.root'
+else: # data
+    process.output.fileName = 'miniAOD_TauReco_data.root'
+    if reclusterJets:
+        process.output.fileName = 'miniAOD_TauReco_ak4PFJets_data.root'
+process.out = cms.EndPath(process.output)
+
+
+
+
+
+
 ##### Modify ouput by Hand#####
 
 if appendOutput:
@@ -138,9 +184,12 @@ tauAtMiniToolsCustom.addTauReRecoCustom(process)
 #####
 print ('Step : 3 - Adapt Tau Reco to MiniAOD inputs')
 
-tauAtMiniToolsCustom.adaptTauToMiniAODReReco(process, reclusterJets)
-print ('Step : 4 - Lower Pt Standard Taus')
+tauAtMiniToolsCustom.adaptTauToMiniAODReReco(process, runType, reclusterJets)
+#######
 
+
+
+print ('Step : 4 - Lower Pt Standard Taus')
 ###### lowering Pt of Standard Taus ######
 minJetPt = 5
 
@@ -188,17 +237,25 @@ if process.maxEvents.input.value() > 10000 or process.maxEvents.input.value() < 
     process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 
 #####
-process.options = cms.untracked.PSet(
-)
+#process.options = cms.untracked.PSet(
+#)
 #process.options.numberOfThreads = cms.untracked.uint32(4)
-process.options.numberOfThreads=cms.untracked.uint32(1)
-process.options.numberOfStreams = cms.untracked.uint32(0)
-print('\t No. of threads:', process.options.numberOfThreads.value(), ', no. of streams:', process.options.numberOfStreams.value())
+#process.options.numberOfThreads=cms.untracked.uint32(1)
+#process.options.numberOfStreams = cms.untracked.uint32(0)
+#print('\t No. of threads:', process.options.numberOfThreads.value(), ', no. of streams:', process.options.numberOfStreams.value())
 
-process.options = cms.untracked.PSet(
-    process.options,
-    wantSummary=cms.untracked.bool(True)
+#process.options = cms.untracked.PSet(
+#    process.options,
+#    wantSummary=cms.untracked.bool(True)
+#)
+
+process.options = dict( numberOfThreads = 4,
+                      # numberOfThreads = 1,
+                        numberOfStreams = 0,
+                        wantSummary = True
 )
+print('\t No. of threads:', process.options.numberOfThreads.value(), ', no. of streams:', process.options.numberOfStreams.value())
 
 dump_file = open('dump_rerunMiniAODClean.py','w')
 dump_file.write(process.dumpPython())
+

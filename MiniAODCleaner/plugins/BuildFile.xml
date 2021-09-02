@@ -24,4 +24,6 @@
 <use name="fastjet"/>
 <use name="FWCore/ServiceRegistry"/>
 <use name="CommonTools/UtilAlgos"/>
+<use name="PhysicsTools/PatUtils"/>
+<use name="PhysicsTools/PatAlgos"/>
 <flags EDM_PLUGIN="1"/>
