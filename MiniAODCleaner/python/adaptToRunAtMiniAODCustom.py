@@ -450,18 +450,21 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
     # Remove RecoTau producers which are not supported (yet?), i.e. against-e/mu discriminats
     for moduleName in process.TauReco.moduleNames(): 
         if 'ElectronRejection' in moduleName or 'MuonRejection' in moduleName:
+            if 'ByDeadECALElectronRejection' in moduleName: continue
             process.miniAODTausTask.remove(getattr(process, moduleName))
     
     
     # Remove RecoTau producers which are not supported (yet?), i.e. against-e/mu discriminats
     for moduleName in process.TauRecoElectronCleaned.moduleNames(): 
         if 'ElectronRejection' in moduleName or 'MuonRejection' in moduleName:
+            if 'ByDeadECALElectronRejection' in moduleName: continue
             process.miniAODTausTaskElectronCleaned.remove(getattr(process, moduleName))
     
 
     # Remove RecoTau producers which are not supported (yet?), i.e. against-e/mu discriminats
     for moduleName in process.TauRecoMuonCleaned.moduleNames(): 
         if 'ElectronRejection' in moduleName or 'MuonRejection' in moduleName:
+            if 'ByDeadECALElectronRejection' in moduleName: continue
             process.miniAODTausTaskMuonCleaned.remove(getattr(process, moduleName))
             
             
@@ -512,7 +515,7 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
     # Remove unsupported tauIDs
     for name, src in six.iteritems(process.patTaus.tauIDSources.parameters_()):
         if name.find('againstElectron') > -1 or name.find('againstMuon') > -1:
-            #if name.find('againstElectronDeadECAL') > -1: continue
+            if name.find('againstElectronDeadECAL') > -1: continue
             delattr(process.patTaus.tauIDSources,name)
     # Add MiniAOD specific ones
         setattr(process.patTaus.tauIDSources,'againstMuonLooseSimple',
@@ -529,7 +532,7 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
     
     for name, src in six.iteritems(process.patTausElectronCleaned.tauIDSources.parameters_()):
         if name.find('againstElectron') > -1 or name.find('againstMuon') > -1:
-            #if name.find('againstElectronDeadECAL') > -1 and name.find('ElectronCleaned') > -1: continue
+            if name.find('againstElectronDeadECAL') > -1 : continue #and name.find('ElectronCleaned') > -1: continue
             delattr(process.patTausElectronCleaned.tauIDSources,name)
     # Add MiniAOD specific ones
     setattr(process.patTausElectronCleaned.tauIDSources,'againstMuonLooseSimple',
@@ -547,7 +550,7 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
     
     for name, src in six.iteritems(process.patTausMuonCleaned.tauIDSources.parameters_()):
         if name.find('againstElectron') > -1 or name.find('againstMuon') > -1:
-            #if name.find('againstElectronDeadECAL') > -1 and name.find('MuonCleaned'): continue
+            if name.find('againstElectronDeadECAL') > -1 : continue #and name.find('MuonCleaned'): continue
             delattr(process.patTausMuonCleaned.tauIDSources,name)
     setattr(process.patTausMuonCleaned.tauIDSources,'againstMuonLooseSimple',
             cms.PSet(inputTag = cms.InputTag('hpsPFTauDiscriminationByMuonRejectionSimpleMuonCleaned'),
