@@ -574,7 +574,7 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
         toKeep = ['againstEle2018','deepTau2017v2p1']
     )
     tauIdEmbedder.runTauID()
-    setattr(process, _noUpdatedTauName, process.selectedPatTaus.clone())
+    setattr(process, _noUpdatedTauName, process.selectedPatTaus.clone(cut = cms.string('pt > 8.0 && abs(eta)<2.3 && tauID(\'decayModeFinding\')> 0.5')))
     process.miniAODTausTask.add(getattr(process,_noUpdatedTauName))
     delattr(process, 'selectedPatTaus')
     process.deepTau2017v2p1.taus = _noUpdatedTauName
@@ -602,7 +602,7 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
         toKeep = ['againstEle2018','deepTau2017v2p1']
     )
     tauIdEmbedderElectronCleaned.runTauID()
-    setattr(process, _noUpdatedTauNameElectronCleaned, process.selectedPatTausElectronCleaned.clone())
+    setattr(process, _noUpdatedTauNameElectronCleaned, process.selectedPatTausElectronCleaned.clone(cut = cms.string('pt > 8.0 && abs(eta)<2.3 && tauID(\'decayModeFinding\')> 0.5')))
     process.miniAODTausTaskElectronCleaned.add(getattr(process,_noUpdatedTauNameElectronCleaned))
     delattr(process,'selectedPatTausElectronCleaned')
     process.deepTau2017v2p1ElectronCleaned.taus = _noUpdatedTauNameElectronCleaned
@@ -630,7 +630,7 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
         toKeep = ['againstEle2018','deepTau2017v2p1']
     )
     tauIdEmbedderMuonCleaned.runTauID()
-    setattr(process, _noUpdatedTauNameMuonCleaned, process.selectedPatTausMuonCleaned.clone())
+    setattr(process, _noUpdatedTauNameMuonCleaned, process.selectedPatTausMuonCleaned.clone(cut = cms.string('pt > 8.0 && abs(eta)<2.3 && tauID(\'decayModeFinding\')> 0.5')))
     process.miniAODTausTaskMuonCleaned.add(getattr(process,_noUpdatedTauNameMuonCleaned))
     delattr(process,'selectedPatTausMuonCleaned')
     process.deepTau2017v2p1MuonCleaned.taus = _noUpdatedTauNameMuonCleaned
