@@ -23,7 +23,7 @@ runType = 'signal'
 #runType = 'background'
 #runType = 'data'
 #maxEvents = 100
-maxEvents=-1
+maxEvents=1000
 appendOutput = True
 #isMC = True
 year='2017'
@@ -91,7 +91,8 @@ print('\t Max events:', process.maxEvents.input.value())
 if runType == 'signal':
     readFiles.extend([
         #'file:patMiniAOD_standard.root'
-        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/4B62060B-AC2A-694A-8E56-B484FD41BCB2.root'
+        #'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/4B62060B-AC2A-694A-8E56-B484FD41BCB2.root'
+        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/04905A2E-7E30-1942-A815-EC9B488A4391.root'
         #'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'#
     ])
 elif runType == 'background':
