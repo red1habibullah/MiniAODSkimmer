@@ -135,13 +135,13 @@ if runType == 'signal':
     if reclusterJets:
         process.output.fileName = 'miniAOD_TauReco_ak4PFJets_ggH_'+year+'.root'
 elif runType == 'background':
-    process.output.fileName = 'miniAOD_TauReco_QCD.root'
+    process.output.fileName = 'miniAOD_TauReco_Background_'+year+'.root'
     if reclusterJets:
-        process.output.fileName = 'miniAOD_TauReco_ak4PFJets_QCD.root'
+        process.output.fileName = 'miniAOD_TauReco_ak4PFJets_Background_'+year+'.root'
 else: # data
-    process.output.fileName = 'miniAOD_TauReco_data.root'
+    process.output.fileName = 'miniAOD_TauReco_data_'+year+'.root'
     if reclusterJets:
-        process.output.fileName = 'miniAOD_TauReco_ak4PFJets_data.root'
+        process.output.fileName = 'miniAOD_TauReco_ak4PFJets_data_'+year+'.root'
 process.out = cms.EndPath(process.output)
 
 
