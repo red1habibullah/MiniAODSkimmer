@@ -19,11 +19,11 @@ from FWCore.ParameterSet.MassReplace import massSearchReplaceParam
 #runSignal = True
 #runSignal=False
 ###########
-runType = 'signal'
-#runType = 'background'
+#runType = 'signal'
+runType = 'background'
 #runType = 'data'
-#maxEvents = 100
-maxEvents=1000
+maxEvents = 1000
+#maxEvents=-1
 appendOutput = True
 #isMC = True
 year='2017'
@@ -99,7 +99,7 @@ elif runType == 'background':
     readFiles.extend([
         #'file:patMiniAOD_standard.root'
         #'/store/relval/CMSSW_10_5_0_pre1/RelValQCD_FlatPt_15_3000HS_13/MINIAODSIM/PU25ns_103X_mcRun2_asymptotic_v3-v1/20000/A5CBC261-E3AB-C842-896F-E6AFB38DD22F.root'
-        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'
+        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/0B986B8B-D508-2E4B-B17C-6A4B7B50A278.root'
     ])
 elif runType == 'data':
     readFiles.extend([
@@ -160,7 +160,7 @@ process.out = cms.EndPath(process.output)
 
 
 
-##### Modify ouput by Hand#####
+##### Modify output by Hand#####
 
 if appendOutput:
     process.output.outputCommands.append('keep *_selectedPatTaus_*_*')
