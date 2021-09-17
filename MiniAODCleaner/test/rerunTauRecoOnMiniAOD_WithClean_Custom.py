@@ -22,8 +22,8 @@ from FWCore.ParameterSet.MassReplace import massSearchReplaceParam
 #runType = 'signal'
 runType = 'background'
 #runType = 'data'
-maxEvents = 1000
-#maxEvents=-1
+#maxEvents = 1000
+maxEvents=-1
 appendOutput = True
 #isMC = True
 year='2017'
