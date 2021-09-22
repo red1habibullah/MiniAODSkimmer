@@ -571,7 +571,7 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
     tauIdEmbedder = tauIdConfig.TauIDEmbedder(
         process, debug = False,
         updatedTauName = _updatedTauName,
-        toKeep = ['againstEle2018','deepTau2017v2p1']
+        toKeep = ['againstEle2018','deepTau2017v2p1','2017v2']
     )
     tauIdEmbedder.runTauID()
     setattr(process, _noUpdatedTauName, process.selectedPatTaus.clone(cut = cms.string('pt > 8.0 && abs(eta)<2.3 && tauID(\'decayModeFinding\')> 0.5')))
@@ -580,6 +580,8 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
     process.deepTau2017v2p1.taus = _noUpdatedTauName
     process.patTauDiscriminationByElectronRejectionMVA62018Raw.PATTauProducer = _noUpdatedTauName
     process.patTauDiscriminationByElectronRejectionMVA62018.PATTauProducer = _noUpdatedTauName
+    process.rerunDiscriminationByIsolationOldDMMVArun2017v2raw.PATTauProducer = _noUpdatedTauName
+    process.rerunDiscriminationByIsolationOldDMMVArun2017v2.PATTauProducer = _noUpdatedTauName
     process.selectedPatTaus = getattr(process, _updatedTauName).clone(
         src = _noUpdatedTauName
     )
@@ -599,7 +601,7 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
         process, debug = False,
         updatedTauName = _updatedTauNameElectronCleaned,
         postfix="ElectronCleaned",
-        toKeep = ['againstEle2018','deepTau2017v2p1']
+        toKeep = ['againstEle2018','deepTau2017v2p1','2017v2']
     )
     tauIdEmbedderElectronCleaned.runTauID()
     setattr(process, _noUpdatedTauNameElectronCleaned, process.selectedPatTausElectronCleaned.clone(cut = cms.string('pt > 8.0 && abs(eta)<2.3 && tauID(\'decayModeFinding\')> 0.5')))
@@ -608,6 +610,8 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
     process.deepTau2017v2p1ElectronCleaned.taus = _noUpdatedTauNameElectronCleaned
     process.patTauDiscriminationByElectronRejectionMVA62018RawElectronCleaned.PATTauProducer = _noUpdatedTauNameElectronCleaned
     process.patTauDiscriminationByElectronRejectionMVA62018ElectronCleaned.PATTauProducer = _noUpdatedTauNameElectronCleaned
+    process.rerunDiscriminationByIsolationOldDMMVArun2017v2rawElectronCleaned.PATTauProducer = _noUpdatedTauNameElectronCleaned
+    process.rerunDiscriminationByIsolationOldDMMVArun2017v2ElectronCleaned.PATTauProducer = _noUpdatedTauNameElectronCleaned
     process.selectedPatTausElectronCleaned = getattr(process, _updatedTauNameElectronCleaned).clone(
         src = _noUpdatedTauNameElectronCleaned
     )
@@ -627,7 +631,7 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
         process, debug = False,
         updatedTauName = _updatedTauNameMuonCleaned,
         postfix="MuonCleaned",
-        toKeep = ['againstEle2018','deepTau2017v2p1']
+        toKeep = ['againstEle2018','deepTau2017v2p1','2017v2']
     )
     tauIdEmbedderMuonCleaned.runTauID()
     setattr(process, _noUpdatedTauNameMuonCleaned, process.selectedPatTausMuonCleaned.clone(cut = cms.string('pt > 8.0 && abs(eta)<2.3 && tauID(\'decayModeFinding\')> 0.5')))
@@ -636,6 +640,8 @@ def adaptTauToMiniAODReReco(process, runType, reclusterJets=True):
     process.deepTau2017v2p1MuonCleaned.taus = _noUpdatedTauNameMuonCleaned
     process.patTauDiscriminationByElectronRejectionMVA62018RawMuonCleaned.PATTauProducer = _noUpdatedTauNameMuonCleaned
     process.patTauDiscriminationByElectronRejectionMVA62018MuonCleaned.PATTauProducer = _noUpdatedTauNameMuonCleaned
+    process.rerunDiscriminationByIsolationOldDMMVArun2017v2rawMuonCleaned.PATTauProducer = _noUpdatedTauNameMuonCleaned
+    process.rerunDiscriminationByIsolationOldDMMVArun2017v2MuonCleaned.PATTauProducer = _noUpdatedTauNameMuonCleaned
     process.selectedPatTausMuonCleaned = getattr(process, _updatedTauNameMuonCleaned).clone(
         src = _noUpdatedTauNameMuonCleaned
     )
