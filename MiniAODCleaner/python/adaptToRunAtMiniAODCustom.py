@@ -868,7 +868,7 @@ def setOutputModule(mode=0):
         ),
         outputCommands = evtContent.MINIAODSIMEventContent.outputCommands,
         SelectEvents=cms.untracked.PSet(
-            SelectEvents=cms.vstring('main_path_et','main_path_mt')
+            SelectEvents=cms.vstring('main_path_et','main_path_mt','main_path')
         )
     )
     #output.outputCommands.append('keep *_selectedPatTaus_*_*')
