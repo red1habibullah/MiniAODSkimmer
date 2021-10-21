@@ -20,8 +20,8 @@ from FWCore.ParameterSet.MassReplace import massSearchReplaceParam
 #runSignal=False
 ###########
 #runType = 'signal'
-runType = 'background'
-#runType = 'data'
+#runType = 'background'
+runType = 'data'
 #maxEvents = 1000
 maxEvents=-1
 appendOutput = True
@@ -76,17 +76,6 @@ process.maxEvents = cms.untracked.PSet(
 )
 print('\t Max events:', process.maxEvents.input.value())
 
-# if runSignal:
-#     readFiles.extend([
-#         #'file:patMiniAOD_standard.root'
-#         '/store/relval/CMSSW_10_5_0_pre1/RelValZTT_13/MINIAODSIM/PU25ns_103X_upgrade2018_realistic_v8-v1/20000/EA29017F-9967-3F41-BB8A-22C44A454235.root'
-#     ])
-# else:
-#     readFiles.extend([
-#         #'file:patMiniAOD_standard.root'
-#         'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/002C691B-A0CE-A24F-8805-03B4C52C9004.root'
-#         #'/store/relval/CMSSW_10_5_0_pre1/RelValQCD_FlatPt_15_3000HS_13/MINIAODSIM/PU25ns_103X_mcRun2_asymptotic_v3-v1/20000/A5CBC261-E3AB-C842-896F-E6AFB38DD22F.root'
-#     ])
 
 if runType == 'signal':
     readFiles.extend([
@@ -104,7 +93,8 @@ elif runType == 'background':
 elif runType == 'data':
     readFiles.extend([
         #'/store/data/Run2018D/SingleMuon/MINIAOD/12Nov2019_UL2018-v4/710000/B7163712-7B03-D949-91C9-EB5DD2E1D4C3.root' # SingleMuon PD
-        '/store/data/Run2018D/Tau/MINIAOD/12Nov2019_UL2018-v1/00000/01415E2B-7CE5-B94C-93BD-0796FC40BD97.root' # Tau PD
+        #'/store/data/Run2018D/Tau/MINIAOD/12Nov2019_UL2018-v1/00000/01415E2B-7CE5-B94C-93BD-0796FC40BD97.root' # Tau PD
+        'file:/eos/uscms/store/user/rhabibul/HtoAA/HtoAAMiniAODTest/1064B50B-89A0-1242-AAD3-93EEC2329738.root'
     ])
 else:
     print('Unknown runType =',runType,'; Use \"signal\" or \"background\" or \"data\"')
@@ -163,14 +153,47 @@ process.out = cms.EndPath(process.output)
 ##### Modify output by Hand#####
 
 if appendOutput:
-    process.output.outputCommands.append('keep *_selectedPatTaus_*_*')
-    process.output.outputCommands.append('keep *_selectedPatTausElectronCleaned_*_*')
-    process.output.outputCommands.append('keep *_selectedPatTausMuonCleaned_*_*')
+    process.output.outputCommands.append('drop *_gtStage2Digis_*_*')
+    process.output.outputCommands.append('drop *_genPUProtons_*_*')
+    process.output.outputCommands.append('drop *_caloStage2Digis_*_*')
+    process.output.outputCommands.append('drop *_l1extraParticles_*_*')
+    process.output.outputCommands.append('drop *_prefiringweight_*_*')
+    process.output.outputCommands.append('drop *_ctppsProtons_*_*')
+    process.output.outputCommands.append('drop *_slimmedTaus_*_*')
+    process.output.outputCommands.append('drop *_slimmedJetsAK8PFPuppiSoftDropPacked_*_*')
+    process.output.outputCommands.append('drop *_slimmedCaloJets_*_*')
+    process.output.outputCommands.append('drop *_slimmedMETsNoHF_*_*')
+    process.output.outputCommands.append('drop *_slimmedMETsPuppi_*_*')
+    process.output.outputCommands.append('drop *_slimmedJetsPuppi_*_*')
+    process.output.outputCommands.append('drop *_slimmedOOTPhotons_*_*')
+    process.output.outputCommands.append('drop *_oniaPhotonCandidates_*_*')    
+    process.output.outputCommands.append('drop *_isolatedTracks_*_*')
+    process.output.outputCommands.append('drop *_lostTracks_*_*')
+    process.output.outputCommands.append('drop *_slimmedKshortVertices_*_*')
+    process.output.outputCommands.append('drop *_slimmedLambdaVertices_*_*')
+    process.output.outputCommands.append('drop *_slimmedMuonTrackExtras_*_*')
+    process.output.outputCommands.append('drop *_slimmedSecondaryVertices_*_*')
+    process.output.outputCommands.append('drop *_BeamHaloSummary_*_*')
+    process.output.outputCommands.append('drop *_CSCHaloData_*_*')
+    process.output.outputCommands.append('drop *_displacedStandAloneMuons_*_*')
+    process.output.outputCommands.append('drop *_scalersRawToDigi_*_*')
+    process.output.outputCommands.append('drop *_ctppsLocalTrackLiteProducer_*_*')
+    process.output.outputCommands.append('keep *_offlineBeamSpot_*_*')    
+    process.output.outputCommands.append('drop *_gmtStage2Digis_*_*')
     process.output.outputCommands.append('keep *_slimmedTausUnCleaned_*_*')
     process.output.outputCommands.append('keep *_slimmedTausElectronCleaned_*_*')
     process.output.outputCommands.append('keep *_slimmedTausMuonCleaned_*_*')
+    process.output.outputCommands.append('drop *_selectedPatTausUnCleaned_*_*')
+    process.output.outputCommands.append('drop *_selectedPatTausElectronCleaned_*_*')
+    process.output.outputCommands.append('drop *_selectedPatTausMuonCleaned_*_*')
     process.output.outputCommands.append('keep *_lumiSummary_*_*')
-    
+    if runType=='signal':
+        print(runType,': identified- will store Jets')
+        process.output.outputCommands.append('keep *_ak4PFJetsPAT_*_*')
+        process.output.outputCommands.append('keep *_ak4PFJetsPATElectronCleaned_*_*')
+        process.output.outputCommands.append('keep *_ak4PFJetsPATMuonCleaned_*_*')        
+    else:
+        print(runType,': identified- will not store Jets')
  
 #####
 
