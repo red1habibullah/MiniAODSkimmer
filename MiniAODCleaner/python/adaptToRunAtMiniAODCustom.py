@@ -861,6 +861,10 @@ def setOutputModule(mode=0):
     import Configuration.EventContent.EventContent_cff as evtContent
     output = cms.OutputModule(
         'PoolOutputModule',
+        compressionAlgorithm = cms.untracked.string('LZMA'),
+        compressionLevel = cms.untracked.int32(4),
+        dropMetaData = cms.untracked.string('ALL'),
+        eventAutoFlushCompressedSize = cms.untracked.int32(-10000),
         fileName=cms.untracked.string('miniAOD_TauReco.root'),
         fastCloning=cms.untracked.bool(False),
         dataset=cms.untracked.PSet(
@@ -869,7 +873,7 @@ def setOutputModule(mode=0):
         ),
         outputCommands = evtContent.MINIAODSIMEventContent.outputCommands,
         SelectEvents=cms.untracked.PSet(
-            SelectEvents=cms.vstring('main_path_et','main_path_mt')
+            SelectEvents=cms.vstring('main_path_et','main_path_mt','main_path')
         )
     )
     #output.outputCommands.append('keep *_selectedPatTaus_*_*')
